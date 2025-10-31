@@ -31,7 +31,7 @@ const TeamTasks = () => {
   const fetchTeamMembers = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://task-management-backend-production-8391.up.railway.app/api/admin/my-team', {
+      const response = await fetch('https://task-management-backend-production-8391.up.railway.app/api/admin/my-team', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -56,7 +56,7 @@ const TeamTasks = () => {
   const fetchTeamTasks = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://task-management-backend-production-8391.up.railway.app/api/tasks/my-team-tasks', {
+      const response = await fetch('https://task-management-backend-production-8391.up.railway.app/api/tasks/my-team-tasks', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -97,8 +97,8 @@ const TeamTasks = () => {
       const token = localStorage.getItem('authToken');
       const method = editingTask ? 'PUT' : 'POST';
       const url = editingTask
-        ? `http://task-management-backend-production-8391.up.railway.app/api/tasks/team-task/${editingTask._id}`
-        : 'http://task-management-backend-production-8391.up.railway.app/api/tasks/team-task';
+        ? `https://task-management-backend-production-8391.up.railway.app/api/tasks/team-task/${editingTask._id}`
+        : 'https://task-management-backend-production-8391.up.railway.app/api/tasks/team-task';
 
       const response = await fetch(url, {
         method,
@@ -133,7 +133,7 @@ const TeamTasks = () => {
   const handleDeleteTask = async (taskId: string) => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`http://task-management-backend-production-8391.up.railway.app/api/tasks/team-task/${taskId}`, {
+      const response = await fetch(`https://task-management-backend-production-8391.up.railway.app/api/tasks/team-task/${taskId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
