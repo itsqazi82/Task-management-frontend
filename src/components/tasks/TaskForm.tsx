@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Task, TaskStatus } from '@/types';
+import { Task, TaskStatus, User } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,14 +13,18 @@ interface TaskFormProps {
   onClose: () => void;
   onSubmit: (taskData: Partial<Task>) => void;
   assignableUsers?: Array<{ id: string; name: string }>;
+  teamMembers?: User[];
+  isTeamTask?: boolean;
 }
 
-export const TaskForm: React.FC<TaskFormProps> = ({ 
-  task, 
-  open, 
-  onClose, 
+export const TaskForm: React.FC<TaskFormProps> = ({
+  task,
+  open,
+  onClose,
   onSubmit,
-  assignableUsers = []
+  assignableUsers = [],
+  teamMembers = [],
+  isTeamTask = false
 }) => {
   const [formData, setFormData] = useState({
     title: '',
@@ -28,6 +32,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({
     status: 'pending' as TaskStatus,
     dueDate: '',
     assignedTo: '',
+    priority: 'medium' as 'low' | 'medium' | 'high',
   });
 
   useEffect(() => {
@@ -37,7 +42,8 @@ export const TaskForm: React.FC<TaskFormProps> = ({
         description: task.description,
         status: task.status,
         dueDate: task.dueDate,
-        assignedTo: task.assignedTo,
+        assignedTo: typeof task.assignedTo === 'string' ? task.assignedTo : task.assignedTo?.id || '',
+        priority: task.priority || 'medium',
       });
     } else {
       setFormData({
@@ -46,6 +52,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({
         status: 'pending',
         dueDate: '',
         assignedTo: '',
+        priority: 'medium',
       });
     }
   }, [task, open]);
@@ -83,6 +90,22 @@ export const TaskForm: React.FC<TaskFormProps> = ({
               />
             </div>
             <div className="grid gap-2">
+              <Label htmlFor="priority">Priority</Label>
+              <Select
+                value={formData.priority}
+                onValueChange={(value: 'low' | 'medium' | 'high') => setFormData({ ...formData, priority: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid gap-2">
               <Label htmlFor="status">Status</Label>
               <Select
                 value={formData.status}
@@ -108,7 +131,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({
                 required
               />
             </div>
-            {assignableUsers.length > 0 && (
+            {(assignableUsers.length > 0 || teamMembers.length > 0) && (
               <div className="grid gap-2">
                 <Label htmlFor="assignedTo">Assign To</Label>
                 <Select
@@ -122,6 +145,11 @@ export const TaskForm: React.FC<TaskFormProps> = ({
                     {assignableUsers.map((user) => (
                       <SelectItem key={user.id} value={user.id}>
                         {user.name}
+                      </SelectItem>
+                    ))}
+                    {teamMembers.map((member) => (
+                      <SelectItem key={member.id} value={member.id}>
+                        {member.username}
                       </SelectItem>
                     ))}
                   </SelectContent>

@@ -56,10 +56,20 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground mb-4">{task.description}</p>
-        <div className="flex items-center text-sm text-muted-foreground">
+        <div className="flex items-center text-sm text-muted-foreground mb-2">
           <Calendar className="mr-2 h-4 w-4" />
           Due: {format(new Date(task.dueDate), 'MMM dd, yyyy')}
         </div>
+        {task.creatorId && (
+          <div className="text-sm text-muted-foreground mb-2">
+            Created by: {typeof task.creatorId === 'object' ? task.creatorId.username : task.creatorId}
+          </div>
+        )}
+        {task.assignedTo && typeof task.assignedTo === 'object' && (
+          <div className="text-sm text-muted-foreground">
+            Assigned to: {task.assignedTo.username}
+          </div>
+        )}
       </CardContent>
       <CardFooter className="flex justify-between">
         <div className="flex gap-2">
@@ -71,10 +81,10 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           )}
         </div>
         {onDelete && (
-          <Button 
-            size="sm" 
-            variant="destructive" 
-            onClick={() => onDelete(task.id)}
+          <Button
+            size="sm"
+            variant="destructive"
+            onClick={() => onDelete(task._id)}
           >
             <Trash2 className="h-4 w-4 mr-1" />
             Delete

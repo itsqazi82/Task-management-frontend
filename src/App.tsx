@@ -9,6 +9,9 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
+import TeamTasks from "./pages/TeamTasks";
+import AllTasks from "./pages/AllTasks";
+import Users from "./pages/Users";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
 
@@ -33,13 +36,37 @@ const App = () => (
                   </ProtectedRoute>
                 } 
               />
-              <Route 
-                path="/tasks" 
+              <Route
+                path="/tasks"
                 element={
                   <ProtectedRoute>
                     <Tasks />
                   </ProtectedRoute>
-                } 
+                }
+              />
+              <Route
+                path="/users"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <Users />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/team-tasks"
+                element={
+                  <ProtectedRoute allowedRoles={['manager']}>
+                    <TeamTasks />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/all-tasks"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AllTasks />
+                  </ProtectedRoute>
+                }
               />
               <Route path="/unauthorized" element={<Unauthorized />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

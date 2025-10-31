@@ -1,55 +1,106 @@
+import { useState, useEffect } from 'react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTasks } from '@/contexts/TaskContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckSquare, Clock, ListTodo, Users } from 'lucide-react';
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const { tasks, getTasksByUser } = useTasks();
-
-  const myTasks = user ? getTasksByUser(user.id) : [];
-  const completedTasks = myTasks.filter(t => t.status === 'completed').length;
-  const inProgressTasks = myTasks.filter(t => t.status === 'in-progress').length;
-  const pendingTasks = myTasks.filter(t => t.status === 'pending').length;
-
-  const stats = [
+  const [stats, setStats] = useState([
     {
       title: 'Total Tasks',
-      value: myTasks.length,
+      value: 0,
       icon: ListTodo,
       color: 'text-primary',
       bgColor: 'bg-primary/10',
     },
     {
       title: 'In Progress',
-      value: inProgressTasks,
+      value: 0,
       icon: Clock,
       color: 'text-warning',
       bgColor: 'bg-warning/10',
     },
     {
       title: 'Completed',
-      value: completedTasks,
+      value: 0,
       icon: CheckSquare,
       color: 'text-success',
       bgColor: 'bg-success/10',
     },
     {
       title: 'Pending',
-      value: pendingTasks,
+      value: 0,
       icon: Users,
       color: 'text-muted-foreground',
       bgColor: 'bg-muted',
     },
-  ];
+  ]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        const response = await fetch('http://localhost:5000/api/tasks/dashboard', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setStats([
+            {
+              title: 'Total Tasks',
+              value: data['Total Tasks'] || 0,
+              icon: ListTodo,
+              color: 'text-primary',
+              bgColor: 'bg-primary/10',
+            },
+            {
+              title: 'In Progress',
+              value: data['In Progress'] || 0,
+              icon: Clock,
+              color: 'text-warning',
+              bgColor: 'bg-warning/10',
+            },
+            {
+              title: 'Completed',
+              value: data.Completed || 0,
+              icon: CheckSquare,
+              color: 'text-success',
+              bgColor: 'bg-success/10',
+            },
+            {
+              title: 'Pending',
+              value: data.Pending || 0,
+              icon: Users,
+              color: 'text-muted-foreground',
+              bgColor: 'bg-muted',
+            },
+          ]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch dashboard stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user) {
+      fetchDashboardStats();
+    }
+  }, [user]);
 
   return (
     <DashboardLayout>
       <div className="container mx-auto p-6 space-y-8">
         <div>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome back, {user?.name}!
+            Welcome back, {user?.username}!
           </h1>
           <p className="text-muted-foreground">
             Here's an overview of your tasks
@@ -84,9 +135,6 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-2 text-sm">
-                <p className="text-muted-foreground">
-                  Total Tasks in System: <span className="font-semibold text-foreground">{tasks.length}</span>
-                </p>
                 <p className="text-muted-foreground">
                   You have full access to manage users and all tasks in the system.
                 </p>

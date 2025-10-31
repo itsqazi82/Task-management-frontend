@@ -83,9 +83,9 @@ const Login = () => {
           <div className="mt-6 border-t border-border pt-6">
             <p className="text-sm text-muted-foreground mb-2">Demo Credentials:</p>
             <div className="space-y-1 text-xs text-muted-foreground">
-              <p><strong>Admin:</strong> admin@taskmanager.com / password123</p>
-              <p><strong>Manager:</strong> manager@taskmanager.com / password123</p>
-              <p><strong>User:</strong> user@taskmanager.com / password123</p>
+              <p><strong>Admin:</strong> admin@example.com / admin123</p>
+              <p><strong>Manager:</strong> manager@example.com / manager123</p>
+              <p><strong>User:</strong> user@example.com / user123</p>
             </div>
           </div>
         </CardContent>
