@@ -21,7 +21,7 @@ const Tasks = () => {
     const fetchMyTasks = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const response = await fetch('http://localhost:5000/api/tasks/my-tasks', {
+        const response = await fetch('http://task-management-backend-production-8391.up.railway.app/api/tasks/my-tasks', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -67,8 +67,8 @@ const Tasks = () => {
       const token = localStorage.getItem('authToken');
       const method = editingTask ? 'PUT' : 'POST';
       const url = editingTask
-        ? `http://localhost:5000/api/tasks/my-task/${editingTask._id}`
-        : 'http://localhost:5000/api/tasks/my-task';
+        ? `http://task-management-backend-production-8391.up.railway.app/api/tasks/my-task/${editingTask._id}`
+        : 'http://task-management-backend-production-8391.up.railway.app/api/tasks/my-task';
 
       const response = await fetch(url, {
         method,
@@ -87,7 +87,7 @@ const Tasks = () => {
 
       if (response.ok) {
         // Refresh tasks list
-        const fetchResponse = await fetch('http://localhost:5000/api/tasks/my-tasks', {
+        const fetchResponse = await fetch('http://task-management-backend-production-8391.up.railway.app/api/tasks/my-tasks', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -111,7 +111,7 @@ const Tasks = () => {
   const handleDeleteTask = async (taskId: string) => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`http://localhost:5000/api/tasks/my-task/${taskId}`, {
+      const response = await fetch(`http://task-management-backend-production-8391.up.railway.app/api/tasks/my-task/${taskId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -121,7 +121,7 @@ const Tasks = () => {
 
       if (response.ok) {
         // Refresh tasks list
-        const fetchResponse = await fetch('http://localhost:5000/api/tasks/my-tasks', {
+        const fetchResponse = await fetch('http://task-management-backend-production-8391.up.railway.app/api/tasks/my-tasks', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

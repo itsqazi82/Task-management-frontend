@@ -16,7 +16,7 @@ const AllTasks = () => {
     const fetchAllTasks = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const response = await fetch('http://localhost:5000/api/admin/all-tasks', {
+        const response = await fetch('http://task-management-backend-production-8391.up.railway.app/api/admin/all-tasks', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
