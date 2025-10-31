@@ -42,7 +42,7 @@ const Dashboard = () => {
     const fetchDashboardStats = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const response = await fetch('http://task-management-backend-production-8391.up.railway.app/api/tasks/dashboard', {
+        const response = await fetch('https://task-management-backend-production-8391.up.railway.app/api/tasks/dashboard', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

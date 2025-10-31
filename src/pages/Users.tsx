@@ -36,7 +36,7 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://task-management-backend-production-8391.up.railway.app/api/admin/users', {
+      const response = await fetch('https://task-management-backend-production-8391.up.railway.app/api/admin/users', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -68,7 +68,7 @@ const Users = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://task-management-backend-production-8391.up.railway.app/api/admin/create-user', {
+      const response = await fetch('https://task-management-backend-production-8391.up.railway.app/api/admin/create-user', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -100,7 +100,7 @@ const Users = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://task-management-backend-production-8391.up.railway.app/api/admin/assign-manager', {
+      const response = await fetch('https://task-management-backend-production-8391.up.railway.app/api/admin/assign-manager', {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -126,7 +126,7 @@ const Users = () => {
   const handleUpdateUser = async (userId: string, updates: Partial<User>) => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`http://task-management-backend-production-8391.up.railway.app/api/admin/users/${userId}`, {
+      const response = await fetch(`https://task-management-backend-production-8391.up.railway.app/api/admin/users/${userId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -150,7 +150,7 @@ const Users = () => {
   const handleDeleteUser = async (userId: string) => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`http://task-management-backend-production-8391.up.railway.app/api/admin/delete-user/${userId}`, {
+      const response = await fetch(`https://task-management-backend-production-8391.up.railway.app/api/admin/delete-user/${userId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
